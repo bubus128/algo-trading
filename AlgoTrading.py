@@ -1,5 +1,6 @@
 import json
 from binance.client import Client
+from Coin import Coin
 
 testrun = True
 
@@ -15,7 +16,8 @@ class AlgoTrading:
         self.client = Client(secrets["api_key"], secrets["api_secret"])
         if testrun:
             self.client.API_URL = 'https://testnet.binance.vision/api'
-        print(self.client.get_asset_balance(asset='BNB'))
+
+        bitcoin = Coin(symbol='BTCUSDT', client=self.client)
 
 
 if __name__ == "__main__":
