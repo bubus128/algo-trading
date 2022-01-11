@@ -2,7 +2,7 @@ import json
 from binance.client import Client
 from Coin import Coin
 
-testrun = True
+testrun = False
 
 
 class AlgoTrading:
@@ -17,7 +17,12 @@ class AlgoTrading:
         if testrun:
             self.client.API_URL = 'https://testnet.binance.vision/api'
 
-        bitcoin = Coin(symbol='BTCUSDT', client=self.client)
+        exchange_info = self.client.get_exchange_info()
+        for s in exchange_info['symbols']:
+            print(s['symbol'])
+
+        bitcoin = Coin(symbol='BTCEUR', client=self.client, cost=50)
+        bitcoin.simpleAlgo()
 
 
 if __name__ == "__main__":
