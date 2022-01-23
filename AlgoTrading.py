@@ -7,7 +7,7 @@ from Coin import Coin
 
 class AlgoTrading:
     test_secrets_path = "./secrets/test_secrets.json"
-    real_secrets_path = "./secrets/secrets.json"
+    real_secrets_path = "./secrets/secrets.jsonn"
 
     def __init__(self, testrun=True, currency='EUR', resources=30, approved_coins=None):
         self.operating_symbols = []
@@ -34,7 +34,6 @@ class AlgoTrading:
             except:
                 print("Error: unable to start thread")
         '''
-        self.reversedDelayMacdTrade(self.coins[0])
 
     def macdTrade(self, coin, interval='6h', fast=12, slow=19, signal=9):
         while True:
@@ -50,23 +49,6 @@ class AlgoTrading:
                     coin.buy()
             print(coin)
             time.sleep(6*3600)
-
-    def reversedDelayMacdTrade(self, coin, interval='15m', fast=11, slow=2, signal=3):
-        while True:
-            coin.getData(interval=interval, time_range='2 Days ago UTC')
-            coin.calculateMacd(fast=fast, slow=slow, signal=signal)
-            macd = coin.macd.macd().values
-            macd_signal = coin.macd.macd_signal().values
-            if coin.amount > 0:
-                if macd[-3] >= macd_signal[-3] and macd[-2] < macd_signal[-2]:
-                    coin.sell()
-                    print('sold')
-            else:
-                if macd[-3] <= macd_signal[-3] and macd[-2] > macd_signal[-2]:
-                    coin.buy()
-                    print('bought')
-            print(coin)
-            time.sleep(15*60)
 
     def simpleEma(self, coin):
         while True:

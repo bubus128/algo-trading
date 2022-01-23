@@ -67,8 +67,8 @@ class Coin:
             amount = float(self.client.get_asset_balance(asset=self.coin_symbol)['free']) - self.min_amount
             amount = amount - (amount % self.sell_step)
             sell_order = self.client.create_order(symbol=self.symbol, side='SELL', type='MARKET', quantity=amount)
-            if sell_order['status' == 'FILLED']:
-                self.amount = 0
+            if sell_order['status'] == 'FILLED':
+                self.amount = float(self.client.get_asset_balance(asset=self.coin_symbol)['free']) - self.min_amount
                 self.resources += float(sell_order['cummulativeQuoteQty'])
                 return self.resources
             else:
@@ -82,7 +82,7 @@ class Coin:
         try:
             buy_order = self.client.create_order(symbol=self.symbol, side='BUY', type='MARKET',
                                                  quoteOrderQty=self.resources)
-            if buy_order['status' == 'FILLED']:
+            if buy_order['status'] == 'FILLED':
                 self.amount = float(self.client.get_asset_balance(asset=self.coin_symbol)['free']) - self.min_amount
                 self.resources -= float(buy_order['cummulativeQuoteQty'])
                 return self.amount

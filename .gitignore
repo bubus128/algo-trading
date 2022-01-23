@@ -131,6 +131,9 @@ dmypy.json
 #pycharm
 .idea/
 
+#vsc
+.vscode/
+
 #project
 secrets/
 results/
